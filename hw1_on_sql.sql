@@ -53,9 +53,3 @@ WHERE composer != 'U2'
 ORDER BY track_id
 OFFSET 9 ROWS
 FETCH NEXT 11 ROWS ONLY;
-
-
-
-
-
-

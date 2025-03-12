@@ -1,10 +1,3 @@
-# db_connection.py
-import sqlite3
-
-def create_connection():
-    """Создание подключения к базе данных Chinook"""
-    conn = sqlite3.connect("Chinook_Sales.db")  # Укажите путь к вашей базе данных
-    return conn
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -13,10 +6,10 @@ from db_connection import create_connection
 # Подключение к базе данных
 conn = create_connection()
 
-# Заголовок дашборда
+# Заголовок
 st.title("Chinook Sales Report")
 
-# Загрузка данных из таблицы invoice
+# Запрос SQL
 query = """
 SELECT 
     billing_country AS country, 
@@ -48,25 +41,23 @@ filtered_df = df[
     (df["total_sales"] >= min_sales)
 ]
 
-# График 1: Сумма продаж по странам
+# Графики
 fig1 = px.bar(
     filtered_df, 
     x="country", 
     y="total_sales", 
-    title="Сумма продаж по странам",
-    labels={"country": "Страна", "total_sales": "Сумма продаж"}
+    title="Сумма продаж по странам"
 )
 
-# График 2: Количество инвойсов по странам
 fig2 = px.line(
     filtered_df, 
     x="invoice_month", 
     y="total_invoices", 
-    color="country",
-    title="Динамика количества инвойсов"
+    color="country", 
+    title="Динамика инвойсов"
 )
 
-# Отображение графиков и данных
+# Отображение
 st.plotly_chart(fig1)
 st.plotly_chart(fig2)
 st.dataframe(filtered_df)
